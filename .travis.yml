@@ -4,7 +4,7 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "EairMVYmKfo9F4xsZh/NFv0QITg6sPej0pKgr+osiajm/dSje5g0G3MqRO8cZQ99rfi6mOD3AyEczCfAsJ+ig9wnmocINE/0tfVq9im28TwaCxestiZIa8HZlBv+OaunmRjjf+tMI9aStkfLJhmr/WoAL3K51Vdwtneu63aoetaAzbhF4BzRTSHmOsUmZYMlWaN8cJ8t1uiXUrD+Ee1wnTTdSWM/C+McJpVQ9S1KYiyKAAPDxSf9P14uF0nZ+BrIGa1JrQEZMZnJcJDNGPkN/oCMappIgn6CJX+QIvOkdtXLW3IGlcprezseadaA+G0CEYRDpNph7cea1uLURXys6jnhC1yaci6wYNrg9DKMqSC5huqWkE8EXDRvYbft8NUtv07nKz+zTagK0gCzECy5CdNMBSK5BtmulJP2d8sLQL2zizSf+Lw0+PDOTlThclqLkx1MP62+3hHzc288XXKMzZXTmjHe+bEcXYXxHBRPu+DgZCYlibbYl9wxZLqaE7hDvpmE8thFKsek3pJmlbu8cD4ylPDFo6qwTTNRa9qJJiAhLhYcPVOyNOaKGbEFwkNxhVZmyWSZOEtiFbWUJjPKx5kk3Hik8YEZbr9awqojcH7eGCsL+XRVBo0Hsy8g65mvnursN1GGpN7V5xs8v57g2Oro7g7ThU698XUmfUr0Hqs="
+   - secure: "mUqZkJEWpMuibUjgn/8IxjugYRnuPDzG7CMp8vZc2/CS8M7n+LpSi3LbDPOVgGgAzgx/2FfNraZGT3ZwIeHN0pUTmDiIUpSClkvdO9YRvCvC9sddRZEhd5VmgYVDVZsaMqL6Q5NRhc48oCdMNzRojrzQ7a53EsVdvEOjS0EWm6dpXBMjfBg9ZJG81W9ULPlv6HiEaPIeM2vZLH8iyVEYkEXUSaU51Uf8RrgOoY+tAg/ViVRB/rOlGS/iuuKof1/lY5UzqTdAwbdMOzx/ocAhsvNhgeXRenIQJ3aNPfGIHj5lDn1j0nuY+ok1jSw5D3rSTUgk621fi1XRYtazy5JN1rhJCpk88XblGMjMclm9B1aMwLB/JslzcYjQ3cxLIP2FQIdtGz0jXGyIBz138B1lo3YwjFZrvkb5BXFCSayOJeXnDNtsj3jGiqSUkAvlB0TSEjoN1/9PrCQZ8xmvxXVVlfqLW3tHnxhJqua26n3qp1z7w73A2sAeTZIpyRQFLMhvArsYabUa1FYGzidAS038yWAeMXOBsNLH9/QPPPxE4izrs31g34mm6UMs9ZfLVu8LGfxV7JEibK6UPqUkS2Kb013188IwNbsvHAVgA3Wo5CXg3MrjjGL4hfAaycQ0KlNMHIaQZKDaPoY46tVJ019AipIQRiZysSCj5U3XsYt4wtA="
 
 before_install:
   - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
@@ -13,7 +13,7 @@ addons:
   coverity_scan:
     project:
       name: "Wiindea/kickoff"
-      description: "<Your project description here>"
+      description: "Build submitted via Travis CI"
     notification_email: chasseguetcorentin@yahoo.fr
     build_command_prepend: "./gradlew check"
     build_command: ""
