@@ -4,7 +4,7 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "mUqZkJEWpMuibUjgn/8IxjugYRnuPDzG7CMp8vZc2/CS8M7n+LpSi3LbDPOVgGgAzgx/2FfNraZGT3ZwIeHN0pUTmDiIUpSClkvdO9YRvCvC9sddRZEhd5VmgYVDVZsaMqL6Q5NRhc48oCdMNzRojrzQ7a53EsVdvEOjS0EWm6dpXBMjfBg9ZJG81W9ULPlv6HiEaPIeM2vZLH8iyVEYkEXUSaU51Uf8RrgOoY+tAg/ViVRB/rOlGS/iuuKof1/lY5UzqTdAwbdMOzx/ocAhsvNhgeXRenIQJ3aNPfGIHj5lDn1j0nuY+ok1jSw5D3rSTUgk621fi1XRYtazy5JN1rhJCpk88XblGMjMclm9B1aMwLB/JslzcYjQ3cxLIP2FQIdtGz0jXGyIBz138B1lo3YwjFZrvkb5BXFCSayOJeXnDNtsj3jGiqSUkAvlB0TSEjoN1/9PrCQZ8xmvxXVVlfqLW3tHnxhJqua26n3qp1z7w73A2sAeTZIpyRQFLMhvArsYabUa1FYGzidAS038yWAeMXOBsNLH9/QPPPxE4izrs31g34mm6UMs9ZfLVu8LGfxV7JEibK6UPqUkS2Kb013188IwNbsvHAVgA3Wo5CXg3MrjjGL4hfAaycQ0KlNMHIaQZKDaPoY46tVJ019AipIQRiZysSCj5U3XsYt4wtA="
+   - secure: "BxiCUMcefDQ57bFPTDGI4f/yym0YX0ofs8kzvr+druAMqUV9gmoq03JhwHuki+myAsW6xVxFsV0hP2/nFsKvK5O8dvbU2vwuh8zYWOhRVK3dUSXd2EihJ3MoIpO6lOH/7AFvsSVAvj2XWxDroIciD9173B24Da+A8dmWZu8QV91wLfvuGt4OHpPKUIFy0QBEC35cghtO/gmdki7XF4p7RpmuKHqszrEy0QEDXqrV21xd6ArdRPDOuOBa7tk56IOZApLn6q69B9vN0fDqKsX+n1UOVXirn8kuAKiMvY+phyDzaZwGamQ+sgkbjLE8SvG//vfFT4A79MPI5YzuNd2O1UO11J9/MYL1R/H/5yZ8vUzOkRc9eQD2fXiFDNJBFGFkIXVNF6WuuHY+t6u9rU6hzVE3rczRfTTWS52+bgO5lpuF7p/MwsRcsXIpz7KlhdTJUi4SBd8ohrj/8QqHrlxaaglrBh7q+ur9IKXswIL9jwEct8TWmn51p6k1Ntlk+aO7Fog6ZLKx4GXciwK489U7y/MXj+c4Igz7jE6+wahXU0cZGv7sIt1AsGrjgVdMCelyDNOvo2aigIUWG92HceTFk07+CAXo7a+bx7YzeVX709u1wE4d7VQntCftXr+Vmy1gsoUK8o+9Pq/5z5aqG6KVDwr8JKTArBiX3Gn4/RdPv3o="
 
 before_install:
   - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
@@ -15,6 +15,6 @@ addons:
       name: "Wiindea/kickoff"
       description: "Build submitted via Travis CI"
     notification_email: chasseguetcorentin@yahoo.fr
-    build_command_prepend: "./gradlew check"
-    build_command: "gradle build"
+    build_command_prepend: ./gradlew check
+    build_command: gradle build
     branch_pattern: coverity_scan
