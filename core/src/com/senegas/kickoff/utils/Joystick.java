@@ -6,140 +6,130 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Joystick
-{	
-	private float MaxDistance = 2000.0f; //in pixels non sqrt
-	private float MaxDistanceSqrt = (float)Math.sqrt((double)MaxDistance);
-	
-	private float CentreX = -1;
-	private float CentreY = -1;
-	
-	private float CurrentX;
-	private float CurrentY;
-	
-	public int FingerId = -1;
-	
-	public float DeadZone = 0.1f;
-	
-	Vector2 tmp = new Vector2();
-	Vector2 CentreVector = new Vector2();
-	
-	public Rectangle Area;
-	
-	public Joystick()
-	{
-		
+public class Joystick {
+	private float maxDistance;
+	private float maxDistanceSqrt;
+
+	private float centreX;
+	private float centreY;
+
+	private float currentX;
+	private float currentY;
+
+	public int fingerId;
+
+	public static final float DEADZONE = 0.1f;
+
+	Vector2 tmp;
+	Vector2 centreVector;
+
+	public Rectangle area;
+
+	public Joystick() {
+		maxDistance = 2000.0f; // in pixels non sqrt
+		maxDistanceSqrt = (float) Math.sqrt((double) maxDistance);
+		centreX = -1;
+		centreY = -1;
+		fingerId = -1;
+		tmp = new Vector2();
+		centreVector = new Vector2();
 	}
-	
-	public void SetMaxDistance(float maxDistanceInPixels)
-	{
-		MaxDistance = (float)Math.pow((double)maxDistanceInPixels, 2);
-		MaxDistanceSqrt = maxDistanceInPixels;
+
+	public void setMaxDistance(float maxDistanceInPixels) {
+		maxDistance = (float) Math.pow((double) maxDistanceInPixels, 2);
+		maxDistanceSqrt = maxDistanceInPixels;
 	}
-	
-	public void Update(float delta)
-	{
-		if (FingerId == -1)
+
+	public void update() {
+		if (fingerId == -1)
 			return;
-		
-		if (Gdx.input.isTouched(FingerId) == false)
-		{
-			FingerId = -1;
-			
-			CentreX = -1;
-			CentreY = -1;
-			
+
+		if (!Gdx.input.isTouched(fingerId)) {
+			fingerId = -1;
+
+			centreX = -1;
+			centreY = -1;
+
 			return;
 		}
-		
-		
-		CurrentX = Gdx.input.getX(FingerId);
-		CurrentY = Gdx.input.getY(FingerId);
-		
-		//Reverse height, so we get graphics height instead of touch height (touch 0,0 = top left; graphics 0,0 = bottom left)
-		CurrentY = Gdx.graphics.getHeight() - CurrentY;		
-		
-		//On first touch, set the centre
-		if (CentreX == -1 && CentreY == -1)
-		{
-			CentreX = CurrentX;
-			CentreY = CurrentY;
+
+		currentX = Gdx.input.getX(fingerId);
+		currentY = Gdx.input.getY(fingerId);
+
+		// Reverse height, so we get graphics height instead of touch height (touch 0,0
+		// = top left; graphics 0,0 = bottom left)
+		currentY = Gdx.graphics.getHeight() - currentY;
+
+		// On first touch, set the centre
+		if (centreX == -1 && centreY == -1) {
+			centreX = currentX;
+			centreY = currentY;
 		}
-		
-		float x = CentreX - CurrentX;
-		float y = CentreY - CurrentY;
-		
+
+		float x = centreX - currentX;
+		float y = centreY - currentY;
+
 		float dis = (x * x) + (y * y);
-				
-		if (dis > MaxDistance)
-		{			
-			dis = (float)Math.sqrt((double)dis);
-			
-			float dif = dis - MaxDistanceSqrt;			
-			
-			CentreVector.x = CentreX;
-			CentreVector.y = CentreY;
-			
-			CentreVector.sub(CurrentX, CurrentY);
-			CentreVector.nor(); // Direction
-			CentreVector.scl(dif);
-			
-			CentreX -= CentreVector.x;
-			CentreY -= CentreVector.y;
-			
-			if (!Area.contains(CentreX, CentreY))
-			{
-				CentreX += CentreVector.x;
-				CentreY += CentreVector.y;
+
+		if (dis > maxDistance) {
+			dis = (float) Math.sqrt((double) dis);
+
+			float dif = dis - maxDistanceSqrt;
+
+			centreVector.x = centreX;
+			centreVector.y = centreY;
+
+			centreVector.sub(currentX, currentY);
+			centreVector.nor(); // Direction
+			centreVector.scl(dif);
+
+			centreX -= centreVector.x;
+			centreY -= centreVector.y;
+
+			if (!area.contains(centreX, centreY)) {
+				centreX += centreVector.x;
+				centreY += centreVector.y;
 			}
 		}
-		
+
 	}
-	
-	public Vector2 Value()
-	{
-		if (FingerId == -1)
-		{
+
+	public Vector2 value() {
+		if (fingerId == -1) {
 			tmp.x = 0;
-			tmp.y = 0;			
-		}
-		else
-		{
-			tmp.x = CentreX - CurrentX;
-			tmp.y = CentreY - CurrentY;
-			
+			tmp.y = 0;
+		} else {
+			tmp.x = centreX - currentX;
+			tmp.y = centreY - currentY;
+
 			tmp.y *= -1;
 			tmp.x *= -1;
-		
+
 			float length = tmp.len();
-			float percentage = length / MaxDistanceSqrt;
-			
-			if (percentage < DeadZone)
-			{
-				tmp.x = 0; 
+			float percentage = length / maxDistanceSqrt;
+
+			if (percentage < DeadZone) {
+				tmp.x = 0;
 				tmp.y = 0;
-			}
-			else
-			{			
+			} else {
 				tmp.nor();
-				tmp.scl(percentage);			
+				tmp.scl(percentage);
 			}
-			
+
 		}
-		
+
 		return tmp;
 	}
-	
-	public void Draw(ShapeRenderer shapeRenderer)
-	{
-		if (FingerId == -1)
+
+	public void draw(ShapeRenderer shapeRenderer) {
+		if (fingerId == -1)
 			return;
-		
+
 		shapeRenderer.begin(ShapeType.Filled);
-		
-		shapeRenderer.circle(CentreX, CentreY, (float)Math.sqrt((double)MaxDistance) );
-		shapeRenderer.circle(CurrentX, CurrentY, 10);
-		
+
+		shapeRenderer.circle(centreX, centreY, (float) Math.sqrt((double) maxDistance));
+		shapeRenderer.circle(currentX, currentY, 10);
+
 		shapeRenderer.end();
 	}
 

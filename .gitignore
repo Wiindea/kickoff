@@ -61,3 +61,5 @@ build/
 
 ## OS Specific
 .DS_Store
+
+core/src/com/senegas/kickoff/.vscode/settings.json
